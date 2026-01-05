@@ -17,9 +17,9 @@ public class WorkoutService : IWorkoutService
         return workout;
     }
 
-    public bool Update(int id,Workout workout)
+    public bool Update(int id, Workout workout)
     {
-        var existingWorkout = _workouts.FirstOrDefault(w => w.Id == workout.Id);
+        var existingWorkout = _workouts.FirstOrDefault(w => w.Id == id);
         if (existingWorkout == null) return false;
 
         existingWorkout.Name = workout.Name;

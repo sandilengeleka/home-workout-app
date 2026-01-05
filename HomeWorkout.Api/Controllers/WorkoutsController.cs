@@ -55,6 +55,7 @@ public class WorkoutsController : ControllerBase
             DifficultyLevel = dto.DifficultyLevel,
             DurationInMinutes = dto.DurationInMinutes
         };
+        
         var updated = _workoutService.Update(id, workout);
         if (!updated) return NotFound();
 
