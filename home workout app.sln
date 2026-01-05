@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWorkout.Api", "HomeWorkout.Api\HomeWorkout.Api.csproj", "{56EB5958-E9A4-02C1-EFE1-8F9135565A78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56EB5958-E9A4-02C1-EFE1-8F9135565A78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56EB5958-E9A4-02C1-EFE1-8F9135565A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56EB5958-E9A4-02C1-EFE1-8F9135565A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56EB5958-E9A4-02C1-EFE1-8F9135565A78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFE5DDC8-0469-4CC0-99F5-4E7C594F84A5}
+	EndGlobalSection
+EndGlobal

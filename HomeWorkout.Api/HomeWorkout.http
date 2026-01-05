@@ -1,0 +1,8 @@
+@HomeWorkout = http://localhost:5135
+
+GET {{HomeWorkout}}/workouts/
+Accept: application/json
+
+###
+
+GET {{HomeWorkout}}/workouts/1
