@@ -1,4 +1,6 @@
+using HomeWorkout.Api.Data;
 using HomeWorkout.Api.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// EF Core DbContext
+builder.Services.AddDbContext<HomeWorkoutContext>(options => 
+    options.UseSqlite("Data Source=homeworkout.db"));
+
 // App services
-builder.Services.AddSingleton<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 var app = builder.Build();
 

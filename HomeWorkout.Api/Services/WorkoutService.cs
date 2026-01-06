@@ -1,40 +1,50 @@
+using HomeWorkout.Api.Data;
 using HomeWorkout.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeWorkout.Api.Services;
 
 public class WorkoutService : IWorkoutService
 {
-    private static readonly List<Workout> _workouts = [];
+    private readonly HomeWorkoutContext _context;
 
-    public IEnumerable<Workout> GetAll() => _workouts;
+    public WorkoutService(HomeWorkoutContext context)
+    {
+        _context = context;
+    }
 
-    public Workout? GetById(int id) => _workouts.FirstOrDefault(w => w.Id == id);
+    public IEnumerable<Workout> GetAll() => _context.Workouts.ToList();
+
+    public Workout? GetById(int id) => _context.Workouts.Find(id);
 
     public Workout Create(Workout workout)
     {
-        workout.Id = _workouts.Count + 1;
-        _workouts.Add(workout);
+        _context.Workouts.Add(workout);
+        _context.SaveChanges();
         return workout;
     }
 
     public bool Update(int id, Workout workout)
     {
-        var existingWorkout = _workouts.FirstOrDefault(w => w.Id == id);
+        var existingWorkout = _context.Workouts.Find(id);
         if (existingWorkout == null) return false;
 
         existingWorkout.Name = workout.Name;
         existingWorkout.Description = workout.Description;
         existingWorkout.DifficultyLevel = workout.DifficultyLevel;
         existingWorkout.DurationInMinutes = workout.DurationInMinutes;
+
+        _context.SaveChanges();
         return true;
     }
 
     public bool Delete(int id)
     {
-        var workout = _workouts.FirstOrDefault(w => w.Id == id);
+        var workout = _context.Workouts.Find(id);
         if (workout == null) return false;
 
-        _workouts.Remove(workout);
+        _context.Workouts.Remove(workout);
+        _context.SaveChanges();
         return true;
     }
 }
