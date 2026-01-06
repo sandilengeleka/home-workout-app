@@ -9,4 +9,5 @@ public interface IWorkoutService
     Workout Create(Workout workout);
     bool Update(int id, Workout workout);
     bool Delete(int id);
+    Workout? GetWorkoutWithExercises(int id);
 }

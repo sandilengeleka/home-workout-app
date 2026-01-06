@@ -1,6 +1,6 @@
-namespace HomeWorkout.Api.DTOs;
+namespace HomeWorkout.Api.DTOs.Workouts;
 
-public class WorkoutDto
+public class WorkoutSummaryDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

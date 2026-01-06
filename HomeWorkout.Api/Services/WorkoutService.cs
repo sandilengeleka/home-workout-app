@@ -4,29 +4,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HomeWorkout.Api.Services;
 
-public class WorkoutService : IWorkoutService
+public class WorkoutService(HomeWorkoutContext context) : IWorkoutService
 {
-    private readonly HomeWorkoutContext _context;
+    private readonly HomeWorkoutContext _dbcontext = context;
 
-    public WorkoutService(HomeWorkoutContext context)
+    public Workout? GetWithExercises(int id)
     {
-        _context = context;
+        return _dbcontext.Workouts
+            .Include(w => w.Exercises) // eager load exercises
+            .FirstOrDefault(w => w.Id == id);
     }
 
-    public IEnumerable<Workout> GetAll() => _context.Workouts.ToList();
+    public IEnumerable<Workout> GetAll() => _dbcontext.Workouts.ToList();
 
-    public Workout? GetById(int id) => _context.Workouts.Find(id);
+    public Workout? GetById(int id) => _dbcontext.Workouts.Find(id);
 
     public Workout Create(Workout workout)
     {
-        _context.Workouts.Add(workout);
-        _context.SaveChanges();
+        _dbcontext.Workouts.Add(workout);
+        _dbcontext.SaveChanges();
         return workout;
     }
 
     public bool Update(int id, Workout workout)
     {
-        var existingWorkout = _context.Workouts.Find(id);
+        var existingWorkout = _dbcontext.Workouts.Find(id);
         if (existingWorkout == null) return false;
 
         existingWorkout.Name = workout.Name;
@@ -34,18 +36,25 @@ public class WorkoutService : IWorkoutService
         existingWorkout.DifficultyLevel = workout.DifficultyLevel;
         existingWorkout.DurationInMinutes = workout.DurationInMinutes;
 
-        _context.SaveChanges();
+        _dbcontext.SaveChanges();
         return true;
     }
 
     public bool Delete(int id)
     {
-        var workout = _context.Workouts.Find(id);
+        var workout = _dbcontext.Workouts.Find(id);
         if (workout == null) return false;
 
-        _context.Workouts.Remove(workout);
-        _context.SaveChanges();
+        _dbcontext.Workouts.Remove(workout);
+        _dbcontext.SaveChanges();
         return true;
+    }
+
+    public Workout? GetWorkoutWithExercises(int id)
+    {
+        return _dbcontext.Workouts
+            .Include(w => w.Exercises)
+            .FirstOrDefault(w => w.Id == id);
     }
 }
 

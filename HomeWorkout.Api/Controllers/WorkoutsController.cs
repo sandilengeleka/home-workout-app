@@ -1,4 +1,5 @@
 using HomeWorkout.Api.DTOs;
+using HomeWorkout.Api.DTOs.Workouts;
 using HomeWorkout.Api.Models;
 using HomeWorkout.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,26 +17,75 @@ public class WorkoutsController : ControllerBase
         _workoutService = workoutService;
     }
 
-    // Get all workouts
+    // GET: api/workouts
     [HttpGet]
     public IActionResult GetAll()
     {
-        return Ok(_workoutService.GetAll());
+        var workouts = _workoutService.GetAll()
+            .Select(w => new WorkoutSummaryDto
+            {
+                Id = w.Id,
+                Name = w.Name,
+                Description = w.Description,
+                DifficultyLevel = w.DifficultyLevel,
+                DurationInMinutes = w.DurationInMinutes
+            });
+
+        return Ok(workouts);
     }
 
-    // Get workout by ID
+    // GET: api/workouts/{id}
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
         var workout = _workoutService.GetById(id);
         if (workout == null) return NotFound();
-        return Ok(workout);
+
+        var dto = new WorkoutDto
+        {
+            Id = workout.Id,
+            Name = workout.Name,
+            Description = workout.Description,
+            DifficultyLevel = workout.DifficultyLevel,
+            DurationInMinutes = workout.DurationInMinutes
+        };
+
+        return Ok(dto);
     }
 
-    // Create a new workout
-    [HttpPost]
-    public IActionResult Create(CreateWorkoutDto dto)
+    // GET: api/workouts/{id}/with-exercises
+    [HttpGet("{id}/with-exercises")]
+    public IActionResult GetWithExercises(int id)
     {
+        var workout = _workoutService.GetWorkoutWithExercises(id);
+        if (workout == null) return NotFound();
+
+        var dto = new WorkoutDetailsDto
+        {
+            Id = workout.Id,
+            Name = workout.Name,
+            Description = workout.Description,
+            DifficultyLevel = workout.DifficultyLevel,
+            DurationInMinutes = workout.DurationInMinutes,
+            Exercises = workout.Exercises.Select(e => new ExerciseDto
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Description = e.Description,
+                Sets = e.Sets,
+                Reps = e.Reps
+            }).ToList()
+        };
+
+        return Ok(dto);
+    }
+
+    // POST: api/workouts
+    [HttpPost]
+    public IActionResult Create([FromBody] CreateWorkoutDto dto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
         var workout = new Workout
         {
             Name = dto.Name,
@@ -45,13 +95,26 @@ public class WorkoutsController : ControllerBase
         };
 
         var createdWorkout = _workoutService.Create(workout);
-        return CreatedAtAction(nameof(GetById), new { id = createdWorkout.Id }, createdWorkout);
+
+        var response = new WorkoutDto
+        {
+            Id = createdWorkout.Id,
+            Name = createdWorkout.Name,
+            Description = createdWorkout.Description,
+            DifficultyLevel = createdWorkout.DifficultyLevel,
+            DurationInMinutes = createdWorkout.DurationInMinutes
+        };
+
+        return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
     }
 
-    // Update an existing workout
+    // PUT: api/workouts/{id}
     [HttpPut("{id}")]
-    public IActionResult Update(int id, CreateWorkoutDto dto)
+    public IActionResult Update(int id, [FromBody] CreateWorkoutDto dto)
     {
+
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
         var workout = new Workout
         {
             Name = dto.Name,
