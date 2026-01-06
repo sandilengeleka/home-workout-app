@@ -9,4 +9,5 @@ public class HomeWorkoutContext : DbContext
         
     }
     public DbSet<Workout> Workouts => Set<Workout>();
+    public DbSet<Exercise> Exercises => Set<Exercise>();
 }

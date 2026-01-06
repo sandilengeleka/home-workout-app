@@ -18,6 +18,8 @@ builder.Services.AddDbContext<HomeWorkoutContext>(options =>
 // App services
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
+
 var app = builder.Build();
 
 // Initialize and seed database

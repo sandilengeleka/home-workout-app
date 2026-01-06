@@ -8,8 +8,10 @@ public class Workout
     public int Id { get; set; }
 
     [Required]
-    public required string Name { get; set; } = string.Empty;
-    public required string Description { get; set; } = string.Empty;
-    public required string DifficultyLevel { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string DifficultyLevel { get; set; } = string.Empty;
     public int DurationInMinutes { get; set; }
+
+    public ICollection<Exercise> Exercises { get; set; } = new List<Exercise>();
 }
