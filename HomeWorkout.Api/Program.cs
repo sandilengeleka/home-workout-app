@@ -20,6 +20,13 @@ builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 var app = builder.Build();
 
+// Initialize and seed database
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<HomeWorkoutContext>();
+    DbInitializer.Seed(context);
+}
+
 // swagger UI
 if (app.Environment.IsDevelopment())
 {
