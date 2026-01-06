@@ -16,12 +16,14 @@ public class WorkoutsController : ControllerBase
         _workoutService = workoutService;
     }
 
+    // Get all workouts
     [HttpGet]
     public IActionResult GetAll()
     {
         return Ok(_workoutService.GetAll());
     }
 
+    // Get workout by ID
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
@@ -30,6 +32,7 @@ public class WorkoutsController : ControllerBase
         return Ok(workout);
     }
 
+    // Create a new workout
     [HttpPost]
     public IActionResult Create(CreateWorkoutDto dto)
     {
@@ -45,6 +48,7 @@ public class WorkoutsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = createdWorkout.Id }, createdWorkout);
     }
 
+    // Update an existing workout
     [HttpPut("{id}")]
     public IActionResult Update(int id, CreateWorkoutDto dto)
     {
@@ -62,6 +66,7 @@ public class WorkoutsController : ControllerBase
         return NoContent();
     }
 
+    // Delete a workout
     [HttpDelete("{id}")] 
     public IActionResult Delete(int id)
     {

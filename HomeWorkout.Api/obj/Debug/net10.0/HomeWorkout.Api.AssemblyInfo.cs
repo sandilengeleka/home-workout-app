@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HomeWorkout.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e513918217d524fe06e1ca4d0b2195a03027c9a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d7d697355e6dd6eec2af57d14133e7a28e302e64")]
 [assembly: System.Reflection.AssemblyProductAttribute("HomeWorkout.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HomeWorkout.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
