@@ -1,5 +1,6 @@
 using HomeWorkout.Api.Data;
 using HomeWorkout.Api.Services;
+using HomeWorkout.Api.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 

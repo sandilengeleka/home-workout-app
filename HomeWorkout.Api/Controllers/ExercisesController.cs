@@ -1,5 +1,4 @@
 using HomeWorkout.Api.DTOs;
-using HomeWorkout.Api.DTOs.Workouts;
 using HomeWorkout.Api.Services;
 using HomeWorkout.Api.Models;
 using Microsoft.AspNetCore.Mvc;

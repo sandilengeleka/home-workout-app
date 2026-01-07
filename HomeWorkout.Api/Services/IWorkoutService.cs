@@ -1,3 +1,4 @@
+using HomeWorkout.Api.DTOs;
 using HomeWorkout.Api.Models;
 
 namespace HomeWorkout.Api.Services;
@@ -10,4 +11,6 @@ public interface IWorkoutService
     bool Update(int id, Workout workout);
     bool Delete(int id);
     Workout? GetWorkoutWithExercises(int id);
+    IEnumerable<Workout> GetPaged(WorkoutQueryDto query, out int totalCount);
+    // Workout? GetPaged(WorkoutQueryDto query, out int totalCount);
 }

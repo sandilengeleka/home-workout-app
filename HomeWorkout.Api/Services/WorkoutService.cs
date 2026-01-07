@@ -1,4 +1,5 @@
 using HomeWorkout.Api.Data;
+using HomeWorkout.Api.DTOs;
 using HomeWorkout.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,14 +9,28 @@ public class WorkoutService(HomeWorkoutContext context) : IWorkoutService
 {
     private readonly HomeWorkoutContext _dbcontext = context;
 
-    public Workout? GetWithExercises(int id)
+    public IEnumerable<Workout> GetPaged(WorkoutQueryDto query, out int totalCount)
     {
-        return _dbcontext.Workouts
-            .Include(w => w.Exercises) // eager load exercises
-            .FirstOrDefault(w => w.Id == id);
-    }
+        var workouts = _dbcontext.Workouts.AsQueryable();
 
-    public IEnumerable<Workout> GetAll() => _dbcontext.Workouts.ToList();
+        if (!string.IsNullOrWhiteSpace(query.Difficulty))
+        {
+            workouts = workouts.Where(w => w.DifficultyLevel == query.Difficulty);
+        }
+        workouts = query.SortBy switch
+        {
+            "duration" => workouts.OrderBy(w => w.DurationInMinutes),
+            "name" => workouts.OrderBy(w => w.Name),
+            _ => workouts
+        };
+
+        totalCount = workouts.Count();
+
+        return workouts
+            .Skip((query.Page - 1) * query.PageSize)
+            .Take(query.PageSize)
+            .ToList();
+    }
 
     public Workout? GetById(int id) => _dbcontext.Workouts.Find(id);
 
@@ -55,6 +70,16 @@ public class WorkoutService(HomeWorkoutContext context) : IWorkoutService
         return _dbcontext.Workouts
             .Include(w => w.Exercises)
             .FirstOrDefault(w => w.Id == id);
+    }
+
+    public IEnumerable<Workout> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<object> GetPaged(WorkoutQueryDto query, out object totalCount)
+    {
+        throw new NotImplementedException();
     }
 }
 

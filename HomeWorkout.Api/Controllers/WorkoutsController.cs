@@ -19,19 +19,26 @@ public class WorkoutsController : ControllerBase
 
     // GET: api/workouts
     [HttpGet]
-    public IActionResult GetAll()
+    public IActionResult GetAll([FromQuery] WorkoutQueryDto query)
     {
-        var workouts = _workoutService.GetAll()
+        var workouts = _workoutService.GetPaged(query, out var totalCount);
+
+        var result = workouts
             .Select(w => new WorkoutSummaryDto
             {
                 Id = w.Id,
                 Name = w.Name,
-                Description = w.Description,
                 DifficultyLevel = w.DifficultyLevel,
                 DurationInMinutes = w.DurationInMinutes
             });
 
-        return Ok(workouts);
+        return Ok(new
+        {
+            totalCount,
+            page = query.Page,
+            pageSize = query.PageSize,
+            data = result
+        });
     }
 
     // GET: api/workouts/{id}
